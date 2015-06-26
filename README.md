@@ -25,7 +25,7 @@ It is very easy to integrate FruityWifi, FrutiyProxy and MITMf.
 <br>`./mitmf.py -i eth0 {+options}`
 <br>`./fruityproxy.py -s 127.0.0.1 -p 10000`
 <br>
-<br>Then, redirect the traffic to port 8080 (FruityProxy default).
+<br>Then, redirect the traffic to port 8080 (FruityProxy default port).
 <br>
 <br>`Request <=> FruityProxy <=> MITMf <=> Response`
 <br>
