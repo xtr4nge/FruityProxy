@@ -53,6 +53,7 @@ def usage():
     print "-a <port>, --listenapi=<port>      Port to listen on [API] (default 8081)."
     print "-s <server>, --upstreamserver      Upstream proxy mode (server)"
     print "-p <port>, --upstreamport          Upstream proxy mode (port)"
+    print "-m <mode>, --mode                  Proxy mode (default transparent)"
     print "-h                                 Print this help message."
     print ""
     print "FruityWifi: http://www.fruitywifi.com"
