@@ -41,9 +41,9 @@ from libmproxy import controller, proxy, platform
 from libmproxy.proxy.server import ProxyServer
 from tempfile import mkstemp
 import os
-from modules.bdfproxy.bdf import pebin
-from modules.bdfproxy.bdf import elfbin
-from modules.bdfproxy.bdf import machobin
+from modules.bdf import pebin
+from modules.bdf import elfbin
+from modules.bdf import machobin
 import string
 import random
 import zipfile
@@ -821,6 +821,7 @@ class BDFproxy(Plugin):
 
 
 #Intial CONFIG reading
+'''
 userConfig = ConfigObj('modules/bdfproxy/bdfproxy.cfg')
 
 #################### BEGIN OVERALL CONFIGS ############################
@@ -837,11 +838,11 @@ if userConfig['Overall']['transparentProxy'] != "None":
     config.transparent_proxy = {'sslports': userConfig['Overall']['sslports'],
                                 'resolver': platform.resolver()
                                 }
-
+'''
 '''
 server = ProxyServer(config)
 '''
-
+'''
 numericLogLevel = getattr(logging, userConfig['Overall']['loglevel'].upper(), None)
 
 if not isinstance(numericLogLevel, int):
@@ -849,13 +850,14 @@ if not isinstance(numericLogLevel, int):
     sys.exit()
 
 '''
+'''
 logging.basicConfig(filename=userConfig['Overall']['logname'],
                     level=numericLogLevel,
                     format='%(asctime)s %(message)s'
                     )
 '''
 #################### END OVERALL CONFIGS ##############################
-
+'''
 #Write resource script
 print "[!] Writing resource script."
 resourceValues = []
@@ -868,7 +870,7 @@ try:
     os.system("echo 1 > /proc/sys/net/ipv4/ip_forward")
 except Exception as e:
     print str(e)
-
+'''
 '''
 m = proxyMaster(server)
 print "[!] Starting BDFProxy"
