@@ -13,6 +13,7 @@
 <br>`-a <port>,   --listenapi=<port>      Port to listen on [API] (default 8081).`
 <br>`-s <server>, --upstreamserver        Upstream proxy mode (server)`
 <br>`-p <port>,   --upstreamport          Upstream proxy mode (port)`
+<br>`-m <mode>,   --mode                  Proxy mode (default transparent)`
 <br>`-h                                   Print help message.`
 <br>
 <br>FruityWifi: http://www.fruitywifi.com
