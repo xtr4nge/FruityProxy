@@ -47,9 +47,22 @@ class ProxyHandler(controller.Master):
         try:
             return controller.Master.run(self)
         except KeyboardInterrupt:
-            self.shutdown()
+            self.shutdown()    
 
     def handle_request(self, flow):
+        
+        '''
+        print
+        print flow.__dict__
+        print flow.request.__dict__
+        '''
+        flow.request.host = flow.request.headers["host"][0]
+        flow.request.update_host_header()
+        '''
+        print
+        print flow.__dict__
+        print flow.request.__dict__
+        '''
         
         for p in self.plugins:
             try:

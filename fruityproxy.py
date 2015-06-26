@@ -64,10 +64,11 @@ def parseOptions(argv):
     listenPortApi  = 8081
     upStreamServer = False
     upStreamPort   = False
+    proxyMode      = "transparent"
     
     try:                                
-        opts, args = getopt.getopt(argv, "hl:a:s:p:", 
-                                   ["help","listen=","apiport=","upstreamserver=", "upstreamport="])
+        opts, args = getopt.getopt(argv, "hl:a:s:p:m:", 
+                                   ["help","listen=","apiport=","upstreamserver=", "upstreamport=", "mode="])
         
         for opt, arg in opts:
             if opt in ("-h", "--help"):
@@ -81,20 +82,22 @@ def parseOptions(argv):
                 upStreamPort = arg
             elif opt in ("-a", "--listenapi"):
                 listenPortApi = arg
+            elif opt in ("-m", "--mode"):
+                proxyMode = arg
 
-        return (listenPort, listenPortApi, upStreamServer, upStreamPort)
+        return (listenPort, listenPortApi, upStreamServer, upStreamPort, proxyMode)
                     
     except getopt.GetoptError:
         usage()
         sys.exit(2)
 
-(listenPort, listenPortApi, upStreamServer, upStreamPort) = parseOptions(sys.argv[1:])
+(listenPort, listenPortApi, upStreamServer, upStreamPort, proxyMode) = parseOptions(sys.argv[1:])
 
 # ------------------------------------
 # FruityProxy (setup)
 # ------------------------------------
 if upStreamServer == False or upStreamPort == False:
-    config = proxy.ProxyConfig(port=listenPort)
+    config = proxy.ProxyConfig(port=listenPort, mode=proxyMode)
     start_msg = "FruityProxy running on port " +  str(listenPort)
 else:
     config = proxy.ProxyConfig(port=listenPort, mode="upstream",upstream_server=[False, False, upStreamServer, int(upStreamPort)])
@@ -102,6 +105,7 @@ else:
     
 server = ProxyServer(config)
 m = ProxyHandler(server)
+
 
 def startProxy():
     try:

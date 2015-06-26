@@ -35,4 +35,4 @@ class NoCache(Plugin):
         flow.response.headers["Pragma"] = ["no-cache"]
         flow.response.headers["Expires"] = ["Expires","01 Jan 2000 00:00:00 GMT"]
         
-        fruityproxy_logger.debug("["+self.name+"] " + flow.request.url)
+        fruityproxy_logger.debug("["+self.name+"] " + flow.request.host)

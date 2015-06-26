@@ -36,4 +36,4 @@ class NonSecureHeaders(Plugin):
         del flow.response.headers["X-Content-Type-Options"]
         del flow.response.headers["Strict-Transport-Security"]
         
-        fruityproxy_logger.debug("["+self.name+"] " + flow.request.url)
+        fruityproxy_logger.debug("["+self.name+"] " + flow.request.host)
