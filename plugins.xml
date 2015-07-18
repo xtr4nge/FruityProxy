@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<FruityProxy>
+    <plugin>
+        <name>BDFproxy</name>
+        <version>1.0</version>
+        <author>@xtr4nge</author>
+        <description>BDFproxy</description>
+        <url>BDFproxy</url>
+        <required>1.0</required>
+    </plugin>
+</FruityProxy>
