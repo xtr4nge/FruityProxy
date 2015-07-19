@@ -28,6 +28,7 @@ fruityproxy_logger = logging.getLogger("fruityproxy")
 
 class NonSecureHeaders(Plugin):
     name = "NonSecureHeaders"
+    version = "1.0"
 
     def response(self, flow):
         pass

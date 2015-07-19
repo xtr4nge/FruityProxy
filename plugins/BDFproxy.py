@@ -105,6 +105,7 @@ def dictParse(d):
 
 class BDFproxy(Plugin):
     name = "BDFproxy"
+    version = "1.0"
     
     def __init__(self):
         '''

@@ -24,10 +24,11 @@ import logging
 from configobj import ConfigObj
 from plugins.plugin import Plugin
 
-fruityproxy_logger = logging.getLogger("fruityproxy")
+logger = logging.getLogger("fruityproxy")
 
 class Survey(Plugin):
     name = "Survey"
+    version = "1.1"
     
     def request(self, flow):
         pass
@@ -44,8 +45,7 @@ class Survey(Plugin):
         
         #if theFile[-1].lower() in ["gif","jpg","png","ico","js","php","asp","jsp","doc","docm","docx","xls","xlsx","xlsm"]:
         if theFile[-1].lower() in self.config[self.name]['extensions'].split("|"):
-            #print "+ " + temp + " | " + theHost
-            fruityproxy_logger.debug("["+self.name+"] " + theHost + " | " + temp)
+            logger.debug("["+self.name+"] " + theHost + " | " + temp)
 
     def response(self, response):
         pass

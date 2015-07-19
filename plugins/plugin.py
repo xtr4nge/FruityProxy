@@ -25,6 +25,7 @@ from configobj import ConfigObj
 
 class Plugin(object):
     name = "Plugin"
+    version = "1.0"
     config = ConfigObj("fruityproxy.conf")
         
     def request(self, flow):

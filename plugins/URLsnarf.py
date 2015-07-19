@@ -24,15 +24,15 @@ import logging
 from configobj import ConfigObj
 from plugins.plugin import Plugin
 
-fruityproxy_logger = logging.getLogger("fruityproxy")
+logger = logging.getLogger("fruityproxy")
 
 class URLsnarf(Plugin):
     name = "URLsnarf"
+    version = "1.1"
     
     def request(self, flow):
-        fruityproxy_logger.debug("[URLsnarf] " + flow.request.host)
+        logger.debug("[URLsnarf] " + flow.request.host)
         pass
     
     def response(self, flow):
         pass
-    

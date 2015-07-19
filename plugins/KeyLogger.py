@@ -28,6 +28,7 @@ Based on MITMf JSkeyLogger plugin: https://github.com/byt3bl33d3r/MITMf/
 
 class KeyLogger(Plugin):
     name = 'KeyLogger'
+    version = "1.0"
     desc = 'Injects a javascript keylogger into clients webpages'
     content_path = "./content/KeyLogger/msfkeylogger.js"
 

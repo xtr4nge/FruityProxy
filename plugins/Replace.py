@@ -25,15 +25,22 @@ import logging
 from configobj import ConfigObj
 from plugins.plugin import Plugin
 
-fruityproxy_logger = logging.getLogger("fruityproxy")
+logger = logging.getLogger("fruityproxy")
 
 class Replace(Plugin):
     name = "Replace"
+    version = "1.1"
     
     def response(self, flow):
         pass
     
-        with decoded(flow.response):
-            for item, v in self.config[self.name]['regex'].iteritems():        
-                #if v.split("||")[0] in flow.request.host and self.theFlag == False:
-                flow.response.content = flow.response.content.replace(v.split("||")[0], v.split("||")[1])
+        if "text/html" in flow.response.headers['Content-Type'][0]:
+            with decoded(flow.response):
+                for item, v in self.config[self.name]['regex'].iteritems():        
+                    #if v.split("||")[0] in flow.request.host and self.theFlag == False:
+                    str_search = v.split("||")[0]
+                    str_replace = v.split("||")[1]
+                    if str_search in flow.response.content:
+                        flow.response.content = flow.response.content.replace(str_search, str_replace)
+                        logger.debug("["+self.name+"] " + str_search + " to " + str_replace + " in " + flow.request.host)
+        

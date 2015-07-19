@@ -26,10 +26,11 @@ import logging
 from configobj import ConfigObj
 from plugins.plugin import Plugin
 
-fruityproxy_logger = logging.getLogger("fruityproxy")
+logger = logging.getLogger("fruityproxy")
 
 class Upsidedown(Plugin):
     name = "Upsidedown"
+    version = "1.1"
     
     def request(self, request):
         pass
@@ -57,9 +58,9 @@ class Upsidedown(Plugin):
                     data = output.getvalue()
                     flow.response.content = data
                     output.close()
-                    fruityproxy_logger.debug("[" + self.name + "] " + "Flipped image " + self.imageType)
+                    logger.debug("[" + self.name + "] " + "Flipped image " + self.imageType)
                 except Exception as e:
-                    fruityproxy_logger.error("[" + self.name + "] " + "Error: {} " + self.imageType)
+                    logger.error("[" + self.name + "] " + "Error: {} " + self.imageType)
                     print e
         except Exception as e:
             print e

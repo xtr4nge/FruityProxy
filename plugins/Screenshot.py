@@ -20,7 +20,7 @@ from plugins.plugin import Plugin
 from libmproxy.protocol.http import decoded
 
 import logging
-fruityproxy_logger = logging.getLogger("fruityproxy")
+logger = logging.getLogger("fruityproxy")
 
 import base64
 import urllib
@@ -33,6 +33,7 @@ Based on MITMf Screenshotter plugin: https://github.com/byt3bl33d3r/MITMf/
 
 class Screenshot(Plugin):
     name = 'Screenshot'
+    version = "1.0"
     replace_str = "</body>"
     content_path = "./content/Screenshot/screenshot.js"
     interval = 10
@@ -49,9 +50,9 @@ class Screenshot(Plugin):
                     img.write(base64.b64decode(urllib.unquote(flow.request.content).decode('utf8').split(',')[1]))
                     img.close()
 
-                fruityproxy_logger.debug('[ScreenShotter] {} Saved screenshot to {}'.format(client, img_file))
+                logger.debug('[ScreenShotter] {} Saved screenshot to {}'.format(client, img_file))
             except Exception as e:
-                fruityproxy_logger.debug('[ScreenShotter] {} Error saving screenshot: {}'.format(client, e))        
+                logger.debug('[ScreenShotter] {} Error saving screenshot: {}'.format(client, e))        
         
     def response(self, flow):
         with decoded(flow.response):

@@ -25,17 +25,18 @@ import logging
 from configobj import ConfigObj
 from plugins.plugin import Plugin
 
-fruityproxy_logger = logging.getLogger("fruityproxy")
+logger = logging.getLogger("fruityproxy")
 
 class Redirect(Plugin):
     name = "Redirect"
+    version = "1.0"
     
     def request(self, flow):
         for item, v in self.config[self.name]['domains'].iteritems():
             domainRedirect= v.split("|")
             if flow.request.pretty_host(hostheader=True).endswith(domainRedirect[0]):
                 flow.request.host = domainRedirect[1]
-                fruityproxy_logger.debug("["+self.name+"] " + domainRedirect[0] + " to " + domainRedirect[1])
+                logger.debug("["+self.name+"] " + domainRedirect[0] + " to " + domainRedirect[1])
                 flow.request.update_host_header()
     
     

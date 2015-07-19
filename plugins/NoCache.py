@@ -28,6 +28,7 @@ fruityproxy_logger = logging.getLogger("fruityproxy")
 
 class NoCache(Plugin):
     name = "NoCache"
+    version = "1.0"
 
     def response(self, flow):
         pass

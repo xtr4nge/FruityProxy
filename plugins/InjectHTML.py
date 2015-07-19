@@ -25,10 +25,11 @@ import logging
 from configobj import ConfigObj
 from plugins.plugin import Plugin
 
-fruityproxy_logger = logging.getLogger("fruityproxy")
+logger = logging.getLogger("fruityproxy")
 
 class InjectHTML(Plugin):
     name = "InjectHTML"
+    version = "1.1"
     replace_str = "</body>"
     content_path = "content/InjectHTML/inject.txt"
 
@@ -41,6 +42,13 @@ class InjectHTML(Plugin):
         f = open(self.content_path, "r")
         replace_content = f.readline()
         f.close()
-    
-        with decoded(flow.response):
-            flow.response.content = flow.response.content.replace(self.replace_str, replace_content + self.replace_str)
+        
+        
+        if "text/html" in flow.response.headers['Content-Type'][0]:       
+            with decoded(flow.response):
+                if self.replace_str in flow.response.content:
+                    flow.response.content = flow.response.content.replace(self.replace_str, replace_content + self.replace_str)
+                    logger.debug("["+self.name+"] Payload injected > " + flow.request.host)
+        else:
+            pass
+            #print "- " + flow.response.headers['Content-Type'][0]
