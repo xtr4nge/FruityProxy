@@ -57,14 +57,6 @@
         <required>1.0</required>
     </plugin>
     <plugin>
-        <name>Phishing</name>
-        <version>1.0</version>
-        <author>@xtr4nge</author>
-        <description>Phishing</description>
-        <url>Phishing</url>
-        <required>1.0</required>
-    </plugin>
-    <plugin>
         <name>Redirect</name>
         <version>1.0</version>
         <author>@xtr4nge</author>
@@ -78,14 +70,6 @@
         <author>@xtr4nge</author>
         <description>Replace</description>
         <url>Replace</url>
-        <required>1.0</required>
-    </plugin>
-    <plugin>
-        <name>SSLstrip</name>
-        <version>1.0</version>
-        <author>@xtr4nge</author>
-        <description>SSLstrip</description>
-        <url>SSLstrip</url>
         <required>1.0</required>
     </plugin>
     <plugin>
