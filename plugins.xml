@@ -74,7 +74,7 @@
     </plugin>
     <plugin>
         <name>Screenshot</name>
-        <version>1.0</version>
+        <version>1.1</version>
         <author>@xtr4nge</author>
         <description>Screenshot</description>
         <url>Screenshot</url>
@@ -102,6 +102,14 @@
         <author>@xtr4nge</author>
         <description>Upsidedown</description>
         <url>Upsidedown</url>
+        <required>1.0</required>
+    </plugin>
+    <plugin>
+        <name>DriftNet</name>
+        <version>1.0</version>
+        <author>@xtr4nge</author>
+        <description>DriftNet</description>
+        <url>DriftNet</url>
         <required>1.0</required>
     </plugin>
 </FruityProxy>
