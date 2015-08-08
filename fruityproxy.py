@@ -26,6 +26,7 @@ import threading
 from configobj import ConfigObj
 from flask import Flask
 import json
+import time
 
 from plugins.plugin import Plugin
 
@@ -171,7 +172,7 @@ if __name__ == "__main__":
         a.start()
     
         while True:
-            pass
+			time.sleep(1)
     
     except KeyboardInterrupt:
         pass
