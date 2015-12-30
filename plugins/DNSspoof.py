@@ -19,7 +19,10 @@
 import os
 from libmproxy import controller, proxy
 from libmproxy.proxy.server import ProxyServer
-from libmproxy.protocol.http import decoded
+try:
+    from libmproxy.protocol.http import decoded # mitmproxy 0.12
+except:
+    from libmproxy.models import decoded # mitmproxy 0.15
 
 import logging
 from configobj import ConfigObj
@@ -29,7 +32,7 @@ logger = logging.getLogger("fruityproxy")
 
 class DNSspoof(Plugin):
     name = "DNSspoof"
-    version = "1.0"
+    version = "1.1"
     
     def request(self, flow):
         for item, v in self.config[self.name]['domains'].iteritems():

@@ -17,7 +17,10 @@
 #
 
 from plugins.plugin import Plugin
-from libmproxy.protocol.http import decoded
+try:
+    from libmproxy.protocol.http import decoded # mitmproxy 0.12
+except:
+    from libmproxy.models import decoded # mitmproxy 0.15
 
 import logging
 fruityproxy_logger = logging.getLogger("fruityproxy")
@@ -28,7 +31,7 @@ Based on MITMf JSkeyLogger plugin: https://github.com/byt3bl33d3r/MITMf/
 
 class KeyLogger(Plugin):
     name = 'KeyLogger'
-    version = "1.0"
+    version = "1.1"
     desc = 'Injects a javascript keylogger into clients webpages'
     content_path = "./content/KeyLogger/msfkeylogger.js"
 

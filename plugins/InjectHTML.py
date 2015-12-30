@@ -19,7 +19,10 @@
 import os
 from libmproxy import controller, proxy
 from libmproxy.proxy.server import ProxyServer
-from libmproxy.protocol.http import decoded
+try:
+    from libmproxy.protocol.http import decoded # mitmproxy 0.12
+except:
+    from libmproxy.models import decoded # mitmproxy 0.15
 
 import logging
 from configobj import ConfigObj
@@ -29,7 +32,7 @@ logger = logging.getLogger("fruityproxy")
 
 class InjectHTML(Plugin):
     name = "InjectHTML"
-    version = "1.1"
+    version = "1.2"
     replace_str = "</body>"
     content_path = "content/InjectHTML/inject.txt"
 
