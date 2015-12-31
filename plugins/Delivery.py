@@ -23,10 +23,7 @@ import time
 
 from libmproxy import controller, proxy
 from libmproxy.proxy.server import ProxyServer
-try:
-    from libmproxy.protocol.http import decoded # mitmproxy 0.12
-except:
-    from libmproxy.models import decoded # mitmproxy 0.15
+from libmproxy.protocol.http import decoded # mitmproxy 0.12
 
 
 import logging
@@ -37,7 +34,7 @@ logger = logging.getLogger("fruityproxy")
 
 class Delivery(Plugin):
     name = "Delivery"
-    version = "1.1"
+    version = "1.0"
     content = "content/Delivery/"
     
     def request(self, flow):
