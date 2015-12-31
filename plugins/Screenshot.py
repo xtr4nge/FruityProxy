@@ -18,10 +18,7 @@
 
 import os
 from plugins.plugin import Plugin
-try:
-    from libmproxy.protocol.http import decoded # mitmproxy 0.12
-except:
-    from libmproxy.models import decoded # mitmproxy 0.15
+from libmproxy.protocol.http import decoded # mitmproxy 0.12
 
 import logging
 logger = logging.getLogger("fruityproxy")
@@ -37,7 +34,7 @@ Based on MITMf Screenshotter plugin: https://github.com/byt3bl33d3r/MITMf/
 
 class Screenshot(Plugin):
     name = 'Screenshot'
-    version = "1.2"
+    version = "1.1"
     replace_str = "</body>"
     content_path = "./content/Screenshot/screenshot.js"
     interval = 10
