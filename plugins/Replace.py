@@ -19,10 +19,7 @@
 import os
 from libmproxy import controller, proxy
 from libmproxy.proxy.server import ProxyServer
-try:
-    from libmproxy.protocol.http import decoded # mitmproxy 0.12
-except:
-    from libmproxy.models import decoded # mitmproxy 0.15
+from libmproxy.protocol.http import decoded # mitmproxy 0.12
 
 import logging
 from configobj import ConfigObj
@@ -32,7 +29,7 @@ logger = logging.getLogger("fruityproxy")
 
 class Replace(Plugin):
     name = "Replace"
-    version = "1.2"
+    version = "1.1"
     
     def response(self, flow):
         pass
