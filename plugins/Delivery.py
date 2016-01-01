@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015 xtr4nge [_AT_] gmail.com
+# Copyright (C) 2015-2016 xtr4nge [_AT_] gmail.com
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,7 +23,10 @@ import time
 
 from libmproxy import controller, proxy
 from libmproxy.proxy.server import ProxyServer
-from libmproxy.protocol.http import decoded # mitmproxy 0.12
+try:
+    from libmproxy.protocol.http import decoded # mitmproxy 0.12
+except:
+    from libmproxy.models import decoded # mitmproxy 0.15
 
 
 import logging
@@ -34,7 +37,7 @@ logger = logging.getLogger("fruityproxy")
 
 class Delivery(Plugin):
     name = "Delivery"
-    version = "1.0"
+    version = "1.1"
     content = "content/Delivery/"
     
     def request(self, flow):
@@ -45,8 +48,9 @@ class Delivery(Plugin):
         pass
         
         #print flow.__dict__
-    
-        if "application" in flow.response.headers['Content-Type'][0]:
+        
+        #if "application" in flow.response.headers['Content-Type'][0]: # mitmproxy 0.15 [remove]
+        if "application" in flow.response.headers['Content-Type']:
             
             if os.path.isdir(self.content) == False:
                 self.createDir()

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015 xtr4nge [_AT_] gmail.com
+# Copyright (C) 2015-2016 xtr4nge [_AT_] gmail.com
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 import os
 from libmproxy import controller, proxy
 from libmproxy.proxy.server import ProxyServer
-from libmproxy.protocol.http import decoded # mitmproxy 0.12
+from libmproxy.models import decoded # mitmproxy 0.15
 
 import logging
 from configobj import ConfigObj
@@ -29,14 +29,15 @@ logger = logging.getLogger("fruityproxy")
 
 class Redirect(Plugin):
     name = "Redirect"
-    version = "1.0"
+    version = "1.1"
     
     def request(self, flow):
         for item, v in self.config[self.name]['domains'].iteritems():
             domainRedirect= v.split("|")
-            if flow.request.pretty_host(hostheader=True).endswith(domainRedirect[0]):
+            #if flow.request.pretty_host(hostheader=True).endswith(domainRedirect[0]):
+            if flow.request.pretty_host.endswith(domainRedirect[0]):
                 flow.request.host = domainRedirect[1]
                 logger.debug("["+self.name+"] " + domainRedirect[0] + " to " + domainRedirect[1])
-                flow.request.update_host_header()
+                #flow.request.update_host_header()
     
     

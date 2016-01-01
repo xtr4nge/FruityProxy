@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015 xtr4nge [_AT_] gmail.com
+# Copyright (C) 2015-2016 xtr4nge [_AT_] gmail.com
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ logger = logging.getLogger("fruityproxy")
 
 class DriftNet(Plugin):
     name = "DriftNet"
-    version = "1.0"
+    version = "1.1"
     
     def request(self, flow):
         pass
@@ -43,15 +43,16 @@ class DriftNet(Plugin):
         if os.path.isdir("logs/" + self.name) == False:
                 self.createDir("logs/" + self.name)
     
-        try: 
-            if "image" in flow.response.headers['Content-Type'][0]:
-                self.imageType = flow.response.headers['Content-Type'][0].split('/')[1].upper()
+        try:
+            if "image" in flow.response.headers['Content-Type']:
+                self.imageType = flow.response.headers['Content-Type'].split('/')[1].upper()
                 isImage = True
             else:
                 isImage = False
                 
                 
-            if isImage and self.imageType in ["GIF", "JPG", "JPEG", "PNG"]:
+            #if isImage and self.imageType in ["GIF", "JPG", "JPEG", "PNG"]:
+            if isImage:
                 try:
                     
                     client_conn = str(flow.client_conn)
@@ -88,7 +89,8 @@ class DriftNet(Plugin):
                     logger.error("[" + self.name + "] " + client + " error: {} " + self.imageType)
                     print e
         except Exception as e:
-            print e
+            pass
+            #print e
             
     def createDir(self, path):
         try:

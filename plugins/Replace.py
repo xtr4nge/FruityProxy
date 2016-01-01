@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015 xtr4nge [_AT_] gmail.com
+# Copyright (C) 2015-2016 xtr4nge [_AT_] gmail.com
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,10 @@
 import os
 from libmproxy import controller, proxy
 from libmproxy.proxy.server import ProxyServer
-from libmproxy.protocol.http import decoded # mitmproxy 0.12
+try:
+    from libmproxy.protocol.http import decoded # mitmproxy 0.12
+except:
+    from libmproxy.models import decoded # mitmproxy 0.15
 
 import logging
 from configobj import ConfigObj
@@ -29,12 +32,13 @@ logger = logging.getLogger("fruityproxy")
 
 class Replace(Plugin):
     name = "Replace"
-    version = "1.1"
+    version = "1.2"
     
     def response(self, flow):
         pass
     
-        if "text/html" in flow.response.headers['Content-Type'][0]:
+        #if "text/html" in flow.response.headers['Content-Type'][0]: # mitmproxy 0.15 [remove]
+        if "text/html" in flow.response.headers['Content-Type']:
             with decoded(flow.response):
                 for item, v in self.config[self.name]['regex'].iteritems():        
                     #if v.split("||")[0] in flow.request.host and self.theFlag == False:

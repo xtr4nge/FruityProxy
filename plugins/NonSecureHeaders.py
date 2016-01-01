@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015 xtr4nge [_AT_] gmail.com
+# Copyright (C) 2015-2016 xtr4nge [_AT_] gmail.com
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,17 +24,22 @@ import logging
 from configobj import ConfigObj
 from plugins.plugin import Plugin
 
-fruityproxy_logger = logging.getLogger("fruityproxy")
+logger = logging.getLogger("fruityproxy")
 
 class NonSecureHeaders(Plugin):
     name = "NonSecureHeaders"
-    version = "1.0"
+    version = "1.1"
 
     def response(self, flow):
         pass
-        del flow.response.headers["X-Frame-Options"]
-        del flow.response.headers["X-XSS-Protection"]
-        del flow.response.headers["X-Content-Type-Options"]
-        del flow.response.headers["Strict-Transport-Security"]
         
-        fruityproxy_logger.debug("["+self.name+"] " + flow.request.host)
+        try: del flow.response.headers["X-Frame-Options"]
+        except: pass
+        try: del flow.response.headers["X-XSS-Protection"]
+        except: pass
+        try: del flow.response.headers["X-Content-Type-Options"]
+        except: pass
+        try: del flow.response.headers["Strict-Transport-Security"]
+        except: pass
+        
+        logger.debug("["+self.name+"] " + flow.request.host)

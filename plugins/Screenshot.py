@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015 xtr4nge [_AT_] gmail.com, Marcello Salvati (@byt3bl33d3r)
+# Copyright (C) 2015-2016 xtr4nge [_AT_] gmail.com, Marcello Salvati (@byt3bl33d3r)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 import os
 from plugins.plugin import Plugin
-from libmproxy.protocol.http import decoded # mitmproxy 0.12
+from libmproxy.models import decoded # mitmproxy 0.15
 
 import logging
 logger = logging.getLogger("fruityproxy")
@@ -34,7 +34,7 @@ Based on MITMf Screenshotter plugin: https://github.com/byt3bl33d3r/MITMf/
 
 class Screenshot(Plugin):
     name = 'Screenshot'
-    version = "1.1"
+    version = "1.2"
     replace_str = "</body>"
     content_path = "./content/Screenshot/screenshot.js"
     interval = 10
@@ -45,7 +45,8 @@ class Screenshot(Plugin):
             flow.request.printPostData = False
             #client = flow.request.client.getClientIP()
             client = flow.client_conn.address()[0]
-            img_file = '{}-{}-{}.png'.format(client, flow.request.headers['host'], datetime.now().strftime("%Y-%m-%d_%H:%M:%S:%s"))
+            img_file = '{}_{}_{}.png'.format(client, flow.request.headers['host'], datetime.now().strftime("%Y-%m-%d_%H_%M_%S_%s"))
+            print img_file
             try:
                 
                 if os.path.isdir("logs/" + self.name) == False:

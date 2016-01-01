@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015 xtr4nge [_AT_] gmail.com
+# Copyright (C) 2015-2016 xtr4nge [_AT_] gmail.com
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,6 +26,9 @@ from configobj import ConfigObj
 import json
 
 class ProxyHandler(controller.Master):
+    
+    context = []
+    
     plugin_classes = plugin.Plugin.__subclasses__()
     plugins = []
     for p in plugin_classes:
@@ -52,35 +55,46 @@ class ProxyHandler(controller.Master):
     def handle_request(self, flow):
         
         '''
-        print
+        print "-- request --"
         print flow.__dict__
         print flow.request.__dict__
-        '''
-        flow.request.host = flow.request.headers["host"][0]
-        flow.request.update_host_header()
-        '''
+        print flow.request.headers.__dict__
+        print "--------------"
         print
-        print flow.__dict__
-        print flow.request.__dict__
         '''
+        
+        #flow.request.host = flow.request.headers["host"][0] # mitmproxy 0.15 [remove]
+        flow.request.host = flow.request.headers["host"]
+        #flow.request.update_host_header() # mitmproxy 0.15 [remove]
         
         for p in self.plugins:
             try:
                 if self.getStatus(p.name):
                     p.request(flow)
             except Exception as e:
+                print "error..."
                 print e
         
-        flow.request.update_host_header()
+        #flow.request.update_host_header() # mitmproxy 0.15 [remove]
         flow.reply()
 
     def handle_response(self, flow):
         
+        '''
+        print
+        print "-- response --"
+        print flow.__dict__
+        print flow.response.__dict__
+        print flow.response.headers.__dict__
+        print "--------------"
+        print
+        '''
         for p in self.plugins:
             try:
                 if self.getStatus(p.name):
                     p.response(flow)
             except Exception as e:
+                print "error..."
                 print e
         
         flow.reply()

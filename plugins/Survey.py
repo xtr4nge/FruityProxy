@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015 xtr4nge [_AT_] gmail.com
+# Copyright (C) 2015-2016 xtr4nge [_AT_] gmail.com
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ class Survey(Plugin):
     
     def request(self, flow):
         pass
-    
+        
         theUrl = flow.request.url
         theHost = flow.request.host
         thePath = flow.request.path

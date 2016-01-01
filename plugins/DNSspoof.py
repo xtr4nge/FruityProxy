@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2015 xtr4nge [_AT_] gmail.com
+# Copyright (C) 2015-2016 xtr4nge [_AT_] gmail.com
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 import os
 from libmproxy import controller, proxy
 from libmproxy.proxy.server import ProxyServer
-from libmproxy.protocol.http import decoded # mitmproxy 0.12
+from libmproxy.models import decoded # mitmproxy 0.15
 
 import logging
 from configobj import ConfigObj
@@ -29,20 +29,39 @@ logger = logging.getLogger("fruityproxy")
 
 class DNSspoof(Plugin):
     name = "DNSspoof"
-    version = "1.0"
+    version = "1.1"
     
     def request(self, flow):
+        
+        request_pretty_host = flow.request.pretty_host
+        request_host = flow.request.host
+        
         for item, v in self.config[self.name]['domains'].iteritems():
-            domainRedirect= v.split("|")
+            domainRedirect = v.split("|")
+            wild_card = ""
+            
+            if len(domainRedirect[0]) > 1:
+                wild_card = domainRedirect[0].split(".")[0]
+                wild_domain = domainRedirect[0].replace("*.","").replace("*","")
+            
             if domainRedirect[0] == "*":
                 flow.request.host = domainRedirect[1]
-                logger.debug("["+self.name+"] " + domainRedirect[0] + " to " + domainRedirect[1])
-                flow.request.update_host_header()
-            elif flow.request.pretty_host(hostheader=True).endswith(domainRedirect[0]):
+                logger.debug("["+self.name+"] " + request_pretty_host + " to " + domainRedirect[1])
+                break
+                '''
+                elif flow.request.pretty_host.endswith(wild_domain) and wild_card == "*":
+                    flow.request.host = domainRedirect[1]
+                    logger.debug("["+self.name+"] " + request_pretty_host + " to " + domainRedirect[1])
+                    break
+                '''
+            
+            elif flow.request.pretty_host.endswith(domainRedirect[0]):
+                #elif flow.request.pretty_host(hostheader=True).endswith(domainRedirect[0]): # mitmproxy 0.15 [remove]
                 flow.request.host = domainRedirect[1]
-                print flow.request.path
-                logger.debug("["+self.name+"] " + domainRedirect[0] + " to " + domainRedirect[1])
-                flow.request.update_host_header()
+                #print flow.request.path
+                logger.debug("["+self.name+"] " + request_pretty_host + " to " + domainRedirect[1])
+                #flow.request.update_host_header() # mitmproxy 0.15 [remove]
+                break
     
     def response(self, flow):
         pass
