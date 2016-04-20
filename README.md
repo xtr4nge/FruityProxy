@@ -19,7 +19,7 @@
 <br>FruityWifi: http://www.fruitywifi.com
 <br>libmproxy:  https://mitmproxy.org/doc/scripting/libmproxy.html
 
-#### Note: mitmproxy v0.15 is required
+#### Note: mitmproxy v0.15 or above is required
 
 
 # FruityProxy and MITMf in upstream mode
