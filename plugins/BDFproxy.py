@@ -37,8 +37,13 @@
 
 """
 
-from libmproxy import controller, proxy, platform
-from libmproxy.proxy.server import ProxyServer
+try:
+    from mitmproxy import controller, proxy # mitmproxy 0.17
+    from mitmproxy.proxy.server import ProxyServer # mitmproxy 0.17
+except:
+    from libmproxy import controller, proxy # mitmproxy 0.15
+    from libmproxy.proxy.server import ProxyServer # mitmproxy 0.15
+
 from tempfile import mkstemp
 import os
 from modules.bdf import pebin

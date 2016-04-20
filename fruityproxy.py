@@ -17,8 +17,13 @@
 #
 
 import os, sys, getopt
-from libmproxy import controller, proxy
-from libmproxy.proxy.server import ProxyServer
+
+try:
+    from mitmproxy import controller, proxy # mitmproxy 0.17
+    from mitmproxy.proxy.server import ProxyServer # mitmproxy 0.17
+except:
+    from libmproxy import controller, proxy # mitmproxy 0.15
+    from libmproxy.proxy.server import ProxyServer # mitmproxy 0.15
 
 from core.ProxyHandler import ProxyHandler
 import logging
@@ -26,7 +31,6 @@ import threading
 from configobj import ConfigObj
 from flask import Flask
 import json
-import time
 
 from plugins.plugin import Plugin
 
@@ -108,7 +112,6 @@ else:
 server = ProxyServer(config)
 m = ProxyHandler(server)
 
-
 def startProxy():
     try:
         m.run()
@@ -172,13 +175,14 @@ if __name__ == "__main__":
         a.start()
     
         while True:
-            time.sleep(1)
+            pass
     
     except KeyboardInterrupt:
         pass
         print
         print "Shutting down fruitywifi-proxy..."
         print "Shutting down fruitywifi-api..."
+        hostapd.stop()
         server.socket.close()
     except Exception as e:
         pass

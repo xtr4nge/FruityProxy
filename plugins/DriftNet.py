@@ -17,8 +17,14 @@
 #
 
 import os, time
-from libmproxy import controller, proxy
-from libmproxy.proxy.server import ProxyServer
+
+try:
+    from mitmproxy import controller, proxy # mitmproxy 0.17
+    from mitmproxy.proxy.server import ProxyServer # mitmproxy 0.17
+except:
+    from libmproxy import controller, proxy # mitmproxy 0.15
+    from libmproxy.proxy.server import ProxyServer # mitmproxy 0.15
+    
 from cStringIO import StringIO
 from PIL import Image, ImageFile
 

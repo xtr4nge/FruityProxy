@@ -17,7 +17,11 @@
 #
 
 from plugins.plugin import Plugin
-from libmproxy.models import decoded # mitmproxy 0.15
+
+try:
+    from mitmproxy.models import decoded # mitmproxy 0.17
+except:
+    from libmproxy.models import decoded # mitmproxy 0.15
 
 import logging
 logger = logging.getLogger("fruityproxy")

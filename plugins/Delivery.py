@@ -21,13 +21,14 @@ import sys
 import subprocess
 import time
 
-from libmproxy import controller, proxy
-from libmproxy.proxy.server import ProxyServer
 try:
-    from libmproxy.protocol.http import decoded # mitmproxy 0.12
+    from mitmproxy import controller, proxy # mitmproxy 0.17
+    from mitmproxy.proxy.server import ProxyServer # mitmproxy 0.17
+    from mitmproxy.models import decoded # mitmproxy 0.17
 except:
+    from libmproxy import controller, proxy # mitmproxy 0.15
+    from libmproxy.proxy.server import ProxyServer # mitmproxy 0.15
     from libmproxy.models import decoded # mitmproxy 0.15
-
 
 import logging
 from configobj import ConfigObj
