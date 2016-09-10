@@ -17,6 +17,7 @@
 #
 
 import os, sys, getopt
+import time
 
 try:
     from mitmproxy import controller, proxy # mitmproxy 0.17
@@ -176,6 +177,7 @@ if __name__ == "__main__":
     
         while True:
             pass
+            time.sleep(0.2)
     
     except KeyboardInterrupt:
         pass
