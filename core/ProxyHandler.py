@@ -39,8 +39,8 @@ class ProxyHandler(controller.Master):
     for p in plugin_classes:
         plugins.append(p())
             
-    def __init__(self, server):
-        controller.Master.__init__(self, server)
+    def __init__(self, opts, server):
+        controller.Master.__init__(self, opts, server)
         self.stickyhosts = {}
         self.config = ConfigObj("fruityproxy.conf")
 
