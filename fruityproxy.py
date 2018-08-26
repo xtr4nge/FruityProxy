@@ -19,12 +19,8 @@
 import os, sys, getopt
 import time
 
-try:
-    from mitmproxy import controller, proxy # mitmproxy 0.17
-    from mitmproxy.proxy.server import ProxyServer # mitmproxy 0.17
-except:
-    from libmproxy import controller, proxy # mitmproxy 0.15
-    from libmproxy.proxy.server import ProxyServer # mitmproxy 0.15
+from mitmproxy import controller, proxy, options 
+from mitmproxy.proxy.server import ProxyServer
 
 from core.ProxyHandler import ProxyHandler
 import logging
@@ -57,8 +53,7 @@ def usage():
     print "Options:"
     print "-l <port>, --listen=<port>         Port to listen on (default 8080)."
     print "-a <port>, --listenapi=<port>      Port to listen on [API] (default 8081)."
-    print "-s <server>, --upstreamserver      Upstream proxy mode (server)"
-    print "-p <port>, --upstreamport          Upstream proxy mode (port)"
+    print "-s <server>, --upstreamserver      Upstream proxy mode ([http|https]://server:port)"
     print "-m <mode>, --mode                  Proxy mode (default transparent)"
     print "-h                                 Print this help message."
     print ""
@@ -70,12 +65,11 @@ def parseOptions(argv):
     listenPort     = 8080
     listenPortApi  = 8081
     upStreamServer = False
-    upStreamPort   = False
     proxyMode      = "transparent"
     
     try:                                
         opts, args = getopt.getopt(argv, "hl:a:s:p:m:", 
-                                   ["help","listen=","apiport=","upstreamserver=", "upstreamport=", "mode="])
+                                   ["help","listen=","apiport=","upstreamserver=", "mode="])
         
         for opt, arg in opts:
             if opt in ("-h", "--help"):
@@ -85,41 +79,39 @@ def parseOptions(argv):
                 listenPort = arg
             elif opt in ("-s", "--upstreamserver"):
                 upStreamServer = arg
-            elif opt in ("-p", "--upstreamport"):
-                upStreamPort = arg
             elif opt in ("-a", "--listenapi"):
                 listenPortApi = arg
             elif opt in ("-m", "--mode"):
                 proxyMode = arg
 
-        return (listenPort, listenPortApi, upStreamServer, upStreamPort, proxyMode)
+        return (listenPort, listenPortApi, upStreamServer, proxyMode)
                     
     except getopt.GetoptError:
         usage()
         sys.exit(2)
 
-(listenPort, listenPortApi, upStreamServer, upStreamPort, proxyMode) = parseOptions(sys.argv[1:])
+(listenPort, listenPortApi, upStreamServer, proxyMode) = parseOptions(sys.argv[1:])
 
-# ------------------------------------
-# FruityProxy (setup)
-# ------------------------------------
-if upStreamServer == False or upStreamPort == False:
-    config = proxy.ProxyConfig(port=listenPort, mode=proxyMode)
-    start_msg = "FruityProxy running on port " +  str(listenPort)
-else:
-    config = proxy.ProxyConfig(port=listenPort, mode="upstream",upstream_server=[False, False, upStreamServer, int(upStreamPort)])
-    start_msg = "FruityProxy running on port " +  str(listenPort) + ", upstream proxy: " + str(upStreamServer) + ":" + str(upStreamPort)
+# ------------------------------------                                                                                                          
+# FruityProxy (setup)                                                                                                                           
+# ------------------------------------                                                                                                          
+if upStreamServer == False:                                                                                            
+    mitmOptions = options.Options(listen_port=listenPort, mode=proxyMode)                                                                       
+    start_msg = "FruityProxy running on port " +  str(listenPort)                                                                               
+else:                                                                                                                                           
+    mitmOptions = options.Options(listen_port=listenPort, mode="upstream",upstream_server=upStreamServer)    
+    start_msg = "FruityProxy running on port " +  str(listenPort) + ", upstream proxy: " + str(upStreamServer)        
     
-server = ProxyServer(config)
-m = ProxyHandler(server)
-
-def startProxy():
-    try:
-        m.run()
-    except:
+config = proxy.ProxyConfig(mitmOptions)                                                                                                         
+server = ProxyServer(config)                                                                                                                    
+m = ProxyHandler(mitmOptions,server)                                                                                                            
+                                                                                                                                                
+def startProxy():                                                                                                                               
+    try:                                                                                                                                        
+        m.run()                                                                                                                                 
+    except:                                                                                                                                     
         pass
     
-
 # ------------------------------------
 # API
 # ------------------------------------
